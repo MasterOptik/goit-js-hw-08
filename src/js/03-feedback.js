@@ -22,15 +22,18 @@ function populateTextarea() {
     if (savedMessage) {
         const createObject = JSON.parse(savedMessage)
         formData = JSON.parse(savedMessage)
-        refs.email.value = createObject.email;
-        refs.message.value = createObject.message;
+        refs.email.value = createObject.email || '';
+        refs.message.value = createObject.message || '';
     }
 }
 populateTextarea();
 
 function onFormSubmit(e) {
-    e.preventDefault();
-    e.target.reset();
-    localStorage.removeItem(STORAGE_KEY);
-
+    if (formData.email && formData.message) {
+        // e.target.reset();
+        localStorage.removeItem(STORAGE_KEY);
+        formData = {};
+    } else {
+        e.preventDefault();
+    }
 }
